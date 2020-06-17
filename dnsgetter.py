@@ -89,7 +89,7 @@ class DNSGetter:
 			arg:ファイル名（CIDR表記又は`0_0_0_0`形式のネットワークアドレス+.html）, opt:file
 		"""
 		if opt == "addr":
-			filename = "table_" + arg.split('/')[0].replace('.', '_') + ".csv"
+			filename = "table/table_" + arg.split('/')[0].replace('.', '_') + ".csv"
 			if os.path.exists(filename) and not self.update:
 				print(filename + "が存在するため再利用します")
 				return filename
@@ -142,13 +142,13 @@ if __name__ == "__main__":
 	if len(sys.argv) is 2:
 		try:
 			if sys.argv[1].replace('.', '').isdecimal():
-				filename = dnsGetter.get_DNS(sys.argv[1], "addr")
+				dnsGetter.get_DNS(sys.argv[1], "addr")
 			elif sys.argv[1].rsplit('.', 1)[-1] == "html":
-				filename = dnsGetter.get_DNS(sys.argv[1], "file")
+				dnsGetter.get_DNS(sys.argv[1], "file")
 			elif sys.argv[1].replace('.', '').encode('utf-8').isalnum():
-				filename = dnsGetter.get_DNS(dnsGetter.get_network_address(sys.argv[1]), "addr")
+				dnsGetter.get_DNS(dnsGetter.get_network_address(sys.argv[1]), "addr")
 			else:
-				filename = dnsGetter.get_DNS(dnsGetter.get_network_address(
+				dnsGetter.get_DNS(dnsGetter.get_network_address(
 					dnsGetter.get_domain_name(sys.argv[1])), "addr")
 		except Exception as e:
 			print(e, file=sys.stderr)
