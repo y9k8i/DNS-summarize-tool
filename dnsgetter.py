@@ -30,25 +30,33 @@ class DNSGetter:
 		self.wait.until(EC.presence_of_all_elements_located)
 
 		class location_to_be_change(object):
-			"""指定したURL以外になるまで待つカスタム待機条件"""
+			"""指定したURL以外になるまで待つカスタム待機条件 アンカー以降は無視"""
+
 			def __init__(self, url):
 				self.url = url
+
 			def __call__(self, driver):
 				if driver.current_url.split('#')[0] != self.url:
 					return True
 				else:
 					return False
-
 		try:
-			if len(self.driver.find_elements_by_id('error')) > 0 and self.driver.find_element_by_id('error').text == "Please wait while we validate your browser.":
+			err_elements = self.driver.find_elements_by_id('error')
+			if len(err_elements) > 0 and err_elements[0].text \
+					== "Please wait while we validate your browser.":
 				print("サーバ側でブラウザを検証中...")
 				self.wait.until(location_to_be_change("https://bgp.he.net/cc"))
-			self.wait.until(EC.presence_of_all_elements_located)
+				self.wait.until(EC.presence_of_all_elements_located)
 			if len(self.driver.find_elements_by_id('tab_error')) > 0:
-				raise Exception("エラー発生: " + self.driver.find_element_by_id('error').text)
+				raise Exception(
+					"エラー発生: " + self.driver.find_element_by_id('error').text)
+			else:
+				err_elements = self.driver.find_elements_by_tag_name('h2')
+				if len(err_elements) > 0:
+					raise Exception("サーバ側エラー発生: " + err_elements[0].text)
+			del err_elements
 		except TimeoutException:
-			raise TimeoutException("エラー発生 時間切れ:\n  " +
-							self.driver.find_element_by_id('error').text)
+			raise TimeoutException("エラー発生 時間切れ")
 		except Exception as e:
 			print(e, file=sys.stderr)
 			pass
