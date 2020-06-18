@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.app import App
 from kivy.config import Config
-from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.properties import BooleanProperty
 from kivy.properties import StringProperty
@@ -22,72 +21,6 @@ from kivy.uix.progressbar import ProgressBar
 import japanize_kivy
 Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '720')
-
-Builder.load_string('''
-#<KvLang>
-<DialogScreen>:
-    query_text: query_text
-    FloatLayout:
-        Label:
-            text:"検索文字列: "
-            font_size: (root.width + root.height) / 6**2
-            pos_hint: {"x":0.1, "top":0.9}
-            size_hint: 0.35, 0.1
-        TextInput:
-            id: query_text
-            font_size: (root.width + root.height) / 6**2
-            multiline: False
-            pos_hint: {"x": 0.45 , "top":0.9}
-            size_hint: 0.4, 0.1
-        Button:
-            pos_hint:{"x":0.2,"y":0.05}
-            size_hint: 0.6, 0.2
-            font_size: root.height / 3**2
-            text: "Go!"
-            on_release:
-                root.on_go_btn_click()
-
-<ProgressScreen>:
-    query: "クエリ"
-    query_label: query_label
-    progress: progress
-    BoxLayout:
-        orientation: "vertical"
-        Label:
-            id: query_label
-            text: "検索文字列: "
-            font_size: (root.width + root.height) / 6**2
-            pos_hint: {"x":0.1, "top":0.9}
-            size_hint: 0.35, 0.1
-        ProgressBar:
-            id: progress
-
-<ResultScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        Button:
-            size: (120, 60)
-            size_hint: (None, None)
-            font_size: root.height / 4**2
-            text: "Back"
-            on_release:
-                root.manager.current = 'dialog'
-
-<Popups>
-    errmsg: errmsg
-    Label:
-        id: errmsg
-        font_size: root.height / 7
-        size_hint: 0.6, 0.2
-        pos_hint: {"x":0.2, "y":0.7}
-    Button:
-        text: "閉じる"
-        font_size: root.height / 7
-        size_hint: 1, 0.4
-        pos_hint: {"x":0, "y":0}
-        on_release: root.popup_close()
-#</KvLang>
-''')
 
 
 class DialogScreen(Screen):
@@ -144,7 +77,7 @@ class ResultScreen(Screen):
         graphview = GraphView()
         # res = graphview.summarize_table(
         #         self.filename.text, self.percentage.text, self.aggressive)
-        res = graphview.summarize_table("table_133_20_0_0.csv", 10, False)
+        res = graphview.summarize_table("table/table_dendai_133_20.csv", 10, False)
         fig = graphview.plot_result(res)
         graphview.add_widget(FigureCanvasKivyAgg(fig))
         self.add_widget(graphview)
@@ -203,12 +136,12 @@ sm.add_widget(ProgressScreen(name="progress"))
 sm.add_widget(ResultScreen(name="result"))
 
 
-class TestApp(App):
+class MyApp(App):
     def build(self):
         self.icon = "icon.png"
-        # sm.current = "result"
+        sm.current = "result"
         return sm
 
 
 if __name__ == '__main__':
-    TestApp().run()
+    MyApp().run()
