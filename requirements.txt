@@ -1,0 +1,5 @@
+selenium
+beautifulsoup4
+matplotlib
+Kivy
+japanize_kivy
