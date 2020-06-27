@@ -122,17 +122,16 @@ class Popups(FloatLayout):
     popup_close = ObjectProperty(None)
 
 
-sm = ScreenManager(transition=FadeTransition())
-sm.add_widget(DialogScreen(name="dialog"))
-sm.add_widget(ProgressScreen(name="progress"))
-sm.add_widget(ResultScreen(name="result"))
-
-
 class MyApp(App):
     def build(self):
         self.icon = "icon.png"
-        sm.current = "result"
-        return sm
+        self.sm = ScreenManager(transition=FadeTransition())
+        self.sm.add_widget(DialogScreen(name="dialog"))
+        self.sm.add_widget(ProgressScreen(name="progress"))
+        self.sm.add_widget(ResultScreen(name="result"))
+        ResultScreen.filename = "table/table_dendai_133_20.csv"
+        # self.sm.current = "result"
+        return self.sm
 
 
 if __name__ == '__main__':
