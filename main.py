@@ -13,7 +13,7 @@ from dnsgetter import DNSGetter
 import numberreplacer
 from matplotlib import rcParams
 import matplotlib.pyplot as plt
-import japanize_kivy
+import japanize_kivy  # noqa: F401
 
 
 class DialogScreen(Screen):
