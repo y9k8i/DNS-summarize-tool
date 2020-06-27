@@ -109,9 +109,10 @@ class GraphView(FloatLayout):
         # 結果を分解する
         values, counts = zip(*res)
 
-        # フォントの設定
+        # フォントの設定 順にmacOS, Windows, Ubuntuで使用できるゴシック体
         rcParams['font.family'] = 'sans-serif'
-        rcParams['font.sans-serif'] = ['Hiragino Maru Gothic Pro']
+        rcParams['font.sans-serif'] = ['Hiragino Maru Gothic Pro',
+                                       'Yu Gothic', 'Noto Sans CJK JP']
         rcParams['font.size'] = 15
 
         fig = plt.figure(dpi=120)
