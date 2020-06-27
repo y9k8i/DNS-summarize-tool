@@ -22,6 +22,7 @@ class DialogScreen(Screen):
     def on_go_btn_click(self):
         if self.query_text.text != "":
             ProgressScreen.query = self.query_text.text
+            self.parent.current = "progress"
         else:
             show = Popups(popup_close=self.popup_close)
             show.errmsg.text = "検索文字列が\n入力されていません"
@@ -57,6 +58,7 @@ class ProgressScreen(Screen):
         ResultScreen.filename = filename
         ResultScreen.percentage = 10
         ResultScreen.aggressive = False
+        self.parent.current = "result"
 
 
 class ResultScreen(Screen):
