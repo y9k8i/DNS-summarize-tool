@@ -21,8 +21,7 @@ class DialogScreen(Screen):
 
     def on_go_btn_click(self):
         if self.query_text.text != "":
-            sm.get_screen("progress").query = self.query_text.text
-            sm.current = "progress"
+            ProgressScreen.query = self.query_text.text
         else:
             show = Popups(popup_close=self.popup_close)
             show.errmsg.text = "検索文字列が\n入力されていません"
@@ -55,10 +54,9 @@ class ProgressScreen(Screen):
         filename = dnsGetter.get_DNS(network_address, "addr")
         self.progress.value = 3
 
-        sm.get_screen("result").filename = filename
-        sm.get_screen("result").percentage = 10
-        sm.get_screen("result").aggressive = False
-        sm.current = "result"
+        ResultScreen.filename = filename
+        ResultScreen.percentage = 10
+        ResultScreen.aggressive = False
 
 
 class ResultScreen(Screen):
