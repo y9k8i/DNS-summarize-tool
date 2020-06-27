@@ -1,4 +1,3 @@
-# coding:utf-8
 # Kivy関連のインポートおよび設定
 from kivy.uix.popup import Popup
 import collections

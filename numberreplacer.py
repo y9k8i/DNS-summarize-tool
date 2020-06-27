@@ -1,4 +1,3 @@
-# coding:utf-8
 # CSVからホスト名を取得し数字を置換するクラス by @y9k8i 2020
 import csv
 import re

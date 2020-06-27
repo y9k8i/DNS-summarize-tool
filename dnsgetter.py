@@ -1,4 +1,3 @@
-# coding:utf-8
 # DNSを取得するクラス by @y9k8i 2020
 import csv
 import os.path
