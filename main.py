@@ -35,7 +35,7 @@ class DialogScreen(Screen):
 
 
 class ProgressScreen(Screen):
-    query = StringProperty(None)
+    query = ObjectProperty(None)
     query_label = ObjectProperty(None)
     progress = ObjectProperty(None)
 
@@ -68,9 +68,8 @@ class ResultScreen(Screen):
 
     def on_enter(self, *args):
         graphview = GraphView()
-        # res = graphview.summarize_table(
-        #         self.filename.text, self.percentage.text, self.aggressive)
-        res = graphview.summarize_table("table/table_dendai_133_20.csv", 10, False)
+        res = graphview.summarize_table(
+            self.filename.text, self.percentage.text, self.aggressive)
         fig = graphview.plot_result(res)
         graphview.add_widget(FigureCanvasKivyAgg(fig))
         self.add_widget(graphview)
@@ -91,7 +90,7 @@ class GraphView(FloatLayout):
             numberreplacer.replace_number(filename, None, aggressive))
 
         # 要素の並び替えおよび「その他」への置換
-        threshold = int(sum(res_sorted.values()) / (100/percentage))
+        threshold = int(sum(res_sorted.values()) / (100 / percentage))
         res = [(k, v) for k, v in res_sorted.most_common() if v >= threshold]
         res.append(
             ('その他', sum(
