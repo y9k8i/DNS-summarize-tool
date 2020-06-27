@@ -1,25 +1,19 @@
-# Kivy関連のインポートおよび設定
-from kivy.uix.popup import Popup
-import collections
-import numberreplacer
-from dnsgetter import DNSGetter
-from matplotlib import rcParams
-import matplotlib.pyplot as plt
-from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
-from kivy.app import App
 from kivy.config import Config
-from kivy.properties import ObjectProperty
-from kivy.properties import BooleanProperty
-from kivy.properties import StringProperty
-from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.checkbox import CheckBox
-from kivy.uix.label import Label
-from kivy.uix.progressbar import ProgressBar
-import japanize_kivy
 Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '720')
+from kivy.app import App
+from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+from kivy.properties import ObjectProperty
+from kivy.properties import BooleanProperty
+from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.popup import Popup
+import collections
+from dnsgetter import DNSGetter
+import numberreplacer
+from matplotlib import rcParams
+import matplotlib.pyplot as plt
+import japanize_kivy
 
 
 class DialogScreen(Screen):
