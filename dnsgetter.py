@@ -17,11 +17,10 @@ class DNSGetter:
     def launch_browser(self):
         """ブラウザを起動する"""
         if not hasattr(self, 'driver'):
-            options = Options()
             if not self.debug:
+                options = Options()
                 options.add_argument('--headless')
-            self.driver = webdriver.Chrome(
-                executable_path='./chromedriver', options=options)
+            self.driver = webdriver.Chrome(options=options)
             self.wait = WebDriverWait(self.driver, 30)
 
     def wait_for_browser_validate(self):
