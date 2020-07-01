@@ -17,6 +17,8 @@ class DNSGetter:
     def launch_browser(self):
         """ブラウザを起動する"""
         if not hasattr(self, 'driver'):
+            options.add_experimental_option(
+                'excludeSwitches', ['enable-logging'])
             if not self.debug:
                 options = Options()
                 options.add_argument('--headless')
