@@ -43,7 +43,7 @@ Note: Kivy 1.11.1 is the last release that supports Python 2.
         ```
     - Download from Google
         1.  Download from [here](https://sites.google.com/a/chromium.org/chromedriver/).
-        1.  Place ChromeDriver (`chromedriver.exe` or `chromedriver`) in downloaded zip file in this directory.
+        1.  Place ChromeDriver included in downloaded zip file in the same folder as main.py.
 
 1.  Install kivy.
     - Using Wheels that has already been compiled (**recommended**)  
