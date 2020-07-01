@@ -4,6 +4,9 @@ import os.path
 import sys
 
 from bs4 import BeautifulSoup
+import pkgutil
+if(pkgutil.find_loader('chromedriver_binary') is not None):
+    import chromedriver_binary as chrome  # noqa: F401
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
@@ -17,10 +20,10 @@ class DNSGetter:
     def launch_browser(self):
         """ブラウザを起動する"""
         if not hasattr(self, 'driver'):
+            options = Options()
             options.add_experimental_option(
                 'excludeSwitches', ['enable-logging'])
             if not self.debug:
-                options = Options()
                 options.add_argument('--headless')
             self.driver = webdriver.Chrome(options=options)
             self.wait = WebDriverWait(self.driver, 30)
