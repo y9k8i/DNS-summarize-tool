@@ -1,3 +1,5 @@
+import collections
+
 from kivy.config import Config
 Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '720')
@@ -8,12 +10,12 @@ from kivy.properties import BooleanProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
-import collections
-from dnsgetter import DNSGetter
-import numberreplacer
+import japanize_kivy  # noqa: F401
 from matplotlib import rcParams
 import matplotlib.pyplot as plt
-import japanize_kivy  # noqa: F401
+
+from dnsgetter import DNSGetter
+import numberreplacer
 
 
 class DialogScreen(Screen):
