@@ -46,18 +46,21 @@ Note: Kivy 1.11.1 is the last release that supports Python 2.
         1.  Place ChromeDriver included in downloaded zip file in the same folder as main.py.
 
 1.  Install kivy.
-    - Using Wheels that has already been compiled (**recommended**)  
-        Replace [whl] with Wheel (with a .whl extension) path that can be downloaded [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#kivy) (unofficial) or link can be found [here](https://kivy.org/downloads/appveyor/kivy/) (snapshot).  
-        e.g. `python -m pip install Kivy-1.11.1-cp37-cp37m-win_amd64.whl` or `python -m pip install https://kivy.org/downloads/appveyor/kivy/Kivy-2.0.0rc3-cp37-cp37m-win_amd64.whl`
+    1.  Follow [this instructions](https://kivy.org/doc/stable/installation/installation-windows.html#installing-the-kivy-stable-release) to install Kivy dependencies.
         ```
         python -m pip install --upgrade wheel
-        python -m pip install [whl]
+        python -m pip install docutils pygments pypiwin32 kivy_deps.sdl2==0.1.* kivy_deps.glew==0.1.*
         ```
-    - Using the source code
-        Follow [this instructions](https://kivy.org/doc/stable/installation/installation-windows.html#installing-the-kivy-stable-release) to install Kivy dependencies.
-        ```
-        python -m pip install kivy
-        ```
+    1.  - Using Wheels that has already been compiled (**recommended**)  
+            Replace [whl] with Wheel (with a .whl extension) path that can be downloaded [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#kivy) (unofficial) or link can be found [here](https://kivy.org/downloads/appveyor/kivy/) (snapshot).  
+            e.g. `python -m pip install Kivy-1.11.1-cp37-cp37m-win_amd64.whl` or `python -m pip install https://kivy.org/downloads/appveyor/kivy/Kivy-2.0.0rc3-cp37-cp37m-win_amd64.whl`
+            ```
+            python -m pip install [whl]
+            ```
+        - Using the source code
+            ```
+            python -m pip install kivy
+            ```
 
 1.  Install dependencies.
     ```
