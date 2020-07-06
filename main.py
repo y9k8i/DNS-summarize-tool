@@ -30,14 +30,7 @@ class DialogScreen(Screen):
             ResultScreen.aggressive = self.res_aggressive
             self.parent.current = "progress"
         else:
-            show = Popups(popup_close=self.popup_close)
-            show.errmsg.text = "検索文字列が\n入力されていません"
-            self.popupWindow = Popup(title="エラー", title_size=32, content=show,
-                                     size_hint=(0.3, 0.4))
-            self.popupWindow.open()
-
-    def popup_close(self):
-        self.popupWindow.dismiss()
+            App.get_running_app().open_popup("検索文字列が\n入力されていません")
 
 
 class ProgressScreen(Screen):
@@ -124,7 +117,19 @@ class GraphView(FloatLayout):
 
 class Popups(FloatLayout):
     errmsg = ObjectProperty(None)
-    popup_close = ObjectProperty(None)
+
+    def open_popup(self, msg: str):
+        self.errmsg.text = msg
+        self.popupWindow = ErrPopup(title="エラー", title_size=32, content=self,
+                                    size_hint=(0.3, 0.4))
+        self.popupWindow.open()
+
+    def popup_close(self):
+        self.popupWindow.dismiss()
+
+
+class ErrPopup(Popup):
+    pass
 
 
 class MyApp(App):
@@ -137,6 +142,10 @@ class MyApp(App):
         ResultScreen.filename = "table/table_dendai_133_20.csv"
         # self.sm.current = "result"
         return self.sm
+
+    def open_popup(self, msg: str):
+        show = Popups()
+        show.open_popup(msg)
 
 
 if __name__ == '__main__':
