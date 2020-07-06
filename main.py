@@ -20,10 +20,14 @@ import numberreplacer
 
 class DialogScreen(Screen):
     query_text = ObjectProperty(None)
+    res_per = ObjectProperty(None)
+    res_aggressive = BooleanProperty(False)
 
     def on_go_btn_click(self):
         if self.query_text.text != "":
             ProgressScreen.query = self.query_text.text
+            ResultScreen.percentage = int(self.res_per.text)
+            ResultScreen.aggressive = self.res_aggressive
             self.parent.current = "progress"
         else:
             show = Popups(popup_close=self.popup_close)
@@ -58,8 +62,6 @@ class ProgressScreen(Screen):
         self.progress.value = 3
 
         ResultScreen.filename = filename
-        ResultScreen.percentage = 10
-        ResultScreen.aggressive = False
         self.parent.current = "result"
 
 

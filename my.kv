@@ -13,6 +13,7 @@
 
 <DialogScreen>:
     query_text: query_text
+    res_per: res_per
     FloatLayout:
         MyLabel:
             text:"検索文字列: "
@@ -22,6 +23,23 @@
             multiline: False
             pos_hint: {"x": 0.45 , "top":0.9}
             size_hint: 0.4, 0.1
+        MyLabel:
+            text:"%: "
+            pos_hint: {"x":0.1, "y":0.7}
+        MyInput:
+            id: res_per
+            pos_hint: {"x": 0.45 , "y":0.7}
+            size_hint: 0.1, 0.1
+            text: "10"
+            hint_text: "割合"
+            input_filter: 'int'
+        MyLabel:
+            text:"積極的: "
+            pos_hint: {"x":0.1, "y":0.6}
+        CheckBox:
+            active: root.res_aggressive
+            pos_hint: {"x":0.45, "y":0.6}
+            size_hint: 0.1, 0.1
         Button:
             pos_hint:{"x":0.2,"y":0.05}
             size_hint: 0.6, 0.2
