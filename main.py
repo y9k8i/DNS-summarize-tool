@@ -37,7 +37,7 @@ class DialogScreen(Screen):
 
 
 class ProgressScreen(Screen):
-    query = ObjectProperty(None)
+    query = ""
     query_label = ObjectProperty(None)
     progress = ObjectProperty(None)
 
@@ -64,14 +64,14 @@ class ProgressScreen(Screen):
 
 
 class ResultScreen(Screen):
-    filename = ObjectProperty(None)
-    percentage = ObjectProperty(None)
-    aggressive = BooleanProperty(None)
+    filename = ""
+    percentage = 10
+    aggressive = False
 
     def on_enter(self, *args):
         graphview = GraphView()
         res = graphview.summarize_table(
-            self.filename.text, self.percentage.text, self.aggressive)
+            self.filename, self.percentage, self.aggressive)
         fig = graphview.plot_result(res)
         graphview.add_widget(FigureCanvasKivyAgg(fig))
         self.add_widget(graphview)
