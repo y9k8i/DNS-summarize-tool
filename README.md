@@ -45,22 +45,60 @@ Note: Kivy 1.11.1 is the last release that supports Python 2.
         1.  Download from [here](https://sites.google.com/a/chromium.org/chromedriver/).
         1.  Place ChromeDriver included in downloaded zip file in the same folder as main.py.
 
-1.  Install kivy.
-    1.  Follow [this instructions](https://kivy.org/doc/stable/installation/installation-windows.html#installing-the-kivy-stable-release) to install Kivy dependencies.
+1.  Install kivy and its dependencies.
+    - Using Conda
         ```
-        python -m pip install --upgrade wheel
-        python -m pip install docutils pygments pypiwin32 kivy_deps.sdl2==0.1.* kivy_deps.glew==0.1.*
+            conda install kivy -c conda-forge
         ```
-    1.  - Using Wheels that has already been compiled (**recommended**)  
-            Replace [whl] with Wheel (with a .whl extension) path that can be downloaded [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#kivy) (unofficial) or link can be found [here](https://kivy.org/downloads/appveyor/kivy/) (snapshot).  
-            e.g. `python -m pip install Kivy-1.11.1-cp37-cp37m-win_amd64.whl` or `python -m pip install https://kivy.org/downloads/appveyor/kivy/Kivy-2.0.0rc3-cp37-cp37m-win_amd64.whl`
-            ```
-            python -m pip install [whl]
-            ```
-        - Using the source code
-            ```
-            python -m pip install kivy
-            ```
+    - Install in a native Python installation  
+        Please also refer to [the installation instructions](https://kivy.org/doc/stable/gettingstarted/installation.html).  
+        Ensure you have the latest pip, wheel.
+        ```
+            python -m pip install --upgrade pip wheel
+        ```
+        - On Windows
+            1.  Follow [this instructions](https://kivy.org/doc/stable/installation/installation-windows.html#installing-the-kivy-stable-release) to install Kivy dependencies.
+                ```
+                python -m pip install docutils pygments pypiwin32 kivy_deps.sdl2==0.1.* kivy_deps.glew==0.1.*
+                ```
+            1.  Install kivy
+                - Using Wheels that has already been compiled (**recommended**)  
+                    Replace [whl] with Wheel path that can be downloaded [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#kivy) (unofficial) or link can be found [here](https://kivy.org/downloads/appveyor/kivy/) (snapshot).
+                    ```
+                    python -m pip install [whl]
+                    ```
+                    e.g. `python -m pip install Kivy-1.11.1-cp37-cp37m-win_amd64.whl` or `python -m pip install https://kivy.org/downloads/appveyor/kivy/Kivy-2.0.0rc3-cp37-cp37m-win_amd64.whl`
+                - Using the source code
+                    ```
+                    python -m pip install kivy
+                    ```
+        - On macOS
+            - Using the source code (**recommended**)
+                ```
+                python -m pip install kivy
+                ```
+            - Using Wheels that has already been compiled  
+                Replace [whl] with Wheel link can be found [here](https://kivy.org/downloads/ci/osx/kivy/) (snapshot).
+                ```
+                python -m pip install [whl]
+                ```
+                e.g. `python -m pip install https://kivy.org/downloads/ci/osx/kivy/Kivy-2.0.0rc3-cp38-cp38-macosx_10_14_x86_64.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl`
+            - Using The Kivy.app  
+                Follow [this instructions](https://kivy.org/doc/stable/installation/installation-osx.html#using-the-kivy-app)
+        - On Linux
+            - Using Precompiled Wheels (**recommended**)
+                ```
+                python -m pip install --upgrade --user setuptools
+                python -m pip install kivy
+                ```
+                - Nightly wheel installation  
+                    Replace [whl] with Wheel link can be found [here](https://kivy.org/downloads/ci/linux/kivy/) (snapshot).
+                    ```
+                    python -m pip install [whl]
+                    ```
+                    e.g. `python -m pip install https://kivy.org/downloads/ci/linux/kivy/Kivy-2.0.0.dev0-cp37-cp37m-manylinux2010_x86_64.whl`
+            - Using software packages  
+                Follow [this instructions](https://kivy.org/doc/stable/installation/installation-linux.html#using-software-packages-ppa-etc)
 
 1.  Install dependencies.
     ```
