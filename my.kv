@@ -1,13 +1,22 @@
 #:kivy 1.0
+<MyLabel@Label>:
+    size_hint: 0.2, 0.1
+    font_size: root.height / 2
+    text_size: self.size
+    halign: 'right'
+    valign: 'center'
+
+<MyInput@TextInput>:
+    font_size: root.height / 2
+    padding: [root.height / 5, (self.height-self.line_height)/2]
+    multiline: False
+
 <DialogScreen>:
     query_text: query_text
     FloatLayout:
-        Label:
+        MyLabel:
             text:"検索文字列: "
-            font_size: (root.width + root.height) / 6**2
-            pos_hint: {"x":0.1, "top":0.9}
-            size_hint: 0.35, 0.1
-        TextInput:
+        MyInput:
             id: query_text
             font_size: (root.width + root.height) / 6**2
             multiline: False
