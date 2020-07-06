@@ -123,7 +123,7 @@ class DNSGetter:
 
         # ファイルに保存
         print("取得したDNSレコードをCSV形式で保存中...")
-        with open(filename, "w", encoding='utf-8') as file:
+        with open(filename, "w", encoding='utf-8', newline='\n') as file:
             writer = csv.writer(file)
             writer.writerow(["IP", "hostname"])
             for row in rows[1:]:
