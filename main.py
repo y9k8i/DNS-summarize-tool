@@ -15,7 +15,7 @@ from matplotlib import rcParams
 import matplotlib.pyplot as plt
 
 from dnsgetter import DNSGetter
-import numberreplacer
+from numberreplacer import NumberReplacer
 
 
 class DialogScreen(Screen):
@@ -44,18 +44,21 @@ class ProgressScreen(Screen):
         self.progress.value = 0
 
     def on_enter(self, *args):
-        dnsGetter = DNSGetter()
-        dnsGetter.debug = True
-        dnsGetter.update = True
-        domain_name = dnsGetter.get_domain_name(self.query)
+        self.dnsGetter = DNSGetter()
+        self.dnsGetter.debug = True
+        self.dnsGetter.update = True
+        domain_name = self.dnsGetter.get_domain_name(self.query)
         self.progress.value = 1
-        network_address = dnsGetter.get_network_address(domain_name)
+        network_address = self.dnsGetter.get_network_address(domain_name)
         self.progress.value = 2
-        filename = dnsGetter.get_DNS(network_address, "addr")
+        filename = self.dnsGetter.get_DNS(network_address, "addr")
         self.progress.value = 3
 
         ResultScreen.filename = filename
         self.parent.current = "result"
+
+    def on_leave(self, *args):
+        del self.dnsGetter
 
 
 class ResultScreen(Screen):
@@ -83,8 +86,10 @@ class GraphView(FloatLayout):
         """
 
         # CSVファイルを読み込み加工する
+        NR = NumberReplacer()
         res_sorted = collections.Counter(
-            numberreplacer.replace_number(filename, None, aggressive))
+            NR.replace_number(filename, None, aggressive))
+        del NR
 
         # 要素の並び替えおよび「その他」への置換
         threshold = int(sum(res_sorted.values()) / (100 / percentage))
