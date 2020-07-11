@@ -51,18 +51,17 @@ class DNSGetter:
                 self.wait.until(location_to_be_change("https://bgp.he.net/cc"))
                 self.wait.until(EC.presence_of_all_elements_located)
             if len(self.driver.find_elements_by_id('tab_error')) > 0:
-                raise Exception(
-                    "エラー発生: " + self.driver.find_element_by_id('error').text)
+                raise Exception(self.driver.find_element_by_id('error')
+                                .get_attribute("textContent")
+                                .split('.')[0] + '.'
+                                )
             else:
                 err_elements = self.driver.find_elements_by_tag_name('h2')
                 if len(err_elements) > 0:
-                    raise Exception("サーバ側エラー発生: " + err_elements[0].text)
+                    raise Exception(err_elements[0].text)
             del err_elements
         except TimeoutException:
-            raise TimeoutException("エラー発生 時間切れ")
-        except Exception as e:
-            print(e, file=sys.stderr)
-            pass
+            raise TimeoutException("時間切れ")
 
     def get_domain_name(self, query) -> str:
         """検索文字列からドメイン名を検出し返す"""
@@ -159,7 +158,7 @@ if __name__ == "__main__":
                 dnsGetter.get_DNS(dnsGetter.get_network_address(
                     dnsGetter.get_domain_name(sys.argv[1])), "addr")
         except Exception as e:
-            print(e, file=sys.stderr)
+            print("エラー: " + e, file=sys.stderr)
         finally:
             del dnsGetter
 
