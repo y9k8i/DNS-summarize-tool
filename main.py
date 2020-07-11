@@ -52,10 +52,10 @@ class ProgressScreen(Screen):
         self.progress.value = 1
         network_address = self.dnsGetter.get_network_address(domain_name)
         self.progress.value = 2
-        filename = self.dnsGetter.get_DNS(network_address, "addr")
+        file_name = self.dnsGetter.get_DNS(network_address, "addr")
         self.progress.value = 3
 
-        ResultScreen.filename = filename
+        ResultScreen.file_name = file_name
         self.parent.current = "result"
 
     def on_leave(self, *args):
@@ -63,22 +63,23 @@ class ProgressScreen(Screen):
 
 
 class ResultScreen(Screen):
-    filename = ""
+    file_name = ""
+    domain_name = ""
     percentage = 10
     aggressive = False
 
     def on_enter(self, *args):
         graphview = GraphView()
         res = graphview.summarize_table(
-            self.filename, self.percentage, self.aggressive)
+            self.file_name, self.domain_name, self.aggressive, self.percentage)
         fig = graphview.plot_result(res)
         graphview.add_widget(FigureCanvasKivyAgg(fig))
         self.add_widget(graphview)
 
 
 class GraphView(FloatLayout):
-    def summarize_table(
-            self, filename, percentage=1, aggressive=False) -> list:
+    def summarize_table(self, file_name: str, domain_name: str,
+                        aggressive: bool, percentage: int) -> list:
         """
         加工済CSVから集計し結果を配列で返す
 
@@ -89,15 +90,14 @@ class GraphView(FloatLayout):
         # CSVファイルを読み込み加工する
         NR = NumberReplacer()
         res_sorted = collections.Counter(
-            NR.replace_number(filename, None, aggressive))
+            NR.replace_number(file_name, domain_name, aggressive))
         del NR
 
         # 要素の並び替えおよび「その他」への置換
         threshold = int(sum(res_sorted.values()) / (100 / percentage))
         res = [(k, v) for k, v in res_sorted.most_common() if v >= threshold]
-        res.append(
-            ('その他', sum(
-                [v for k, v in res_sorted.most_common() if v < threshold])))
+        res.append(('その他', sum(
+            [v for k, v in res_sorted.most_common() if v < threshold])))
         return res
 
     def plot_result(self, res) -> plt.figure:
@@ -157,7 +157,7 @@ class MyApp(App):
         self.sm.add_widget(DialogScreen(name="dialog"))
         self.sm.add_widget(ProgressScreen(name="progress"))
         self.sm.add_widget(ResultScreen(name="result"))
-        ResultScreen.filename = "table/table_dendai_133_20.csv"
+        # ResultScreen.file_name = "table/table_dendai_133_20.csv"
         # self.sm.current = "result"
         return self.sm
 
