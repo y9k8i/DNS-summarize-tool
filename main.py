@@ -9,6 +9,7 @@ from kivy.properties import ObjectProperty
 from kivy.properties import BooleanProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 import japanize_kivy  # noqa: F401
 from matplotlib import rcParams
@@ -39,7 +40,7 @@ class ProgressScreen(Screen):
     progress = ObjectProperty(None)
 
     def on_pre_enter(self, *args):
-        self.query_label.text += self.query
+        self.query_label.text = "検索文字列: " + self.query
         self.progress.max = 3
         self.progress.value = 0
 
@@ -118,6 +119,18 @@ class GraphView(FloatLayout):
         plt.title("DNSレコードにおける各種ホスト名の割合")
         fig.subplots_adjust(left=0, right=0.6)
         return fig
+
+
+class WrappedLabel(Label):
+    # https://stackoverflow.com/a/58227983
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.bind(
+            width=lambda *x:
+                self.setter('text_size')(self, (self.width, None)),
+            texture_size=lambda *x:
+                self.setter('height')(self, self.texture_size[1])
+        )
 
 
 class Popups(FloatLayout):
