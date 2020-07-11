@@ -73,7 +73,7 @@ class DNSGetter:
         domain_name = soup.select_one(".iUh30")
         title = soup.select_one(".LC20lb")
         print(title.text + "のドメイン名は" + domain_name.text)
-        return domain_name.text
+        return domain_name.text if domain_name is not None else ""
 
     def get_network_address(self, domain_name) -> str:
         """ドメイン名からネットワークアドレスを検出し返す"""
@@ -84,7 +84,7 @@ class DNSGetter:
         self.wait_for_browser_validate()
         soup = BeautifulSoup(self.driver.page_source, "html.parser")
         addr = soup.select_one("#ipinfo > a:nth-child(2)")
-        return addr.text
+        return addr.text if addr is not None else ""
 
     def get_DNS(self, arg, opt) -> str:
         """
