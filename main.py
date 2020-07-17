@@ -1,4 +1,5 @@
 import collections
+import logging
 
 from kivy.config import Config
 Config.set('graphics', 'width', '1280')
@@ -151,6 +152,11 @@ class ErrPopup(Popup):
 
 
 class MyApp(App):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    logger.addHandler(handler)
+
     def build(self):
         self.icon = "icon.png"
         self.sm = ScreenManager(transition=FadeTransition())
