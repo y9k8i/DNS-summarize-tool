@@ -151,10 +151,12 @@ class WrappedLabel(Label):
 class Popups(FloatLayout):
     errmsg = ObjectProperty(None)
 
-    def open_popup(self, msg: str):
+    def open_popup(self, msg: str, my_callback):
         self.errmsg.text = msg
         self.popupWindow = ErrPopup(title="エラー", title_size=32, content=self,
-                                    size_hint=(0.3, 0.4))
+                                    size_hint=(0.3, 0.4), auto_dismiss=False)
+        if(my_callback is not None):
+            self.popupWindow.bind(on_dismiss=my_callback)
         self.popupWindow.open()
 
     def popup_close(self):
@@ -181,9 +183,9 @@ class MyApp(App):
         # self.sm.current = "result"
         return self.sm
 
-    def open_popup(self, msg: str):
+    def open_popup(self, msg: str, on_dismiss=None):
         show = Popups()
-        show.open_popup(msg)
+        show.open_popup(msg, on_dismiss)
 
 
 if __name__ == '__main__':
