@@ -6,8 +6,7 @@ Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '720')
 from kivy.app import App
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
-from kivy.properties import ObjectProperty
-from kivy.properties import BooleanProperty
+from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
@@ -48,6 +47,7 @@ class ProgressScreen(Screen):
     def on_pre_enter(self, *args):
         self.query_label.text = "検索文字列: " + self.query
 
+    def on_enter(self, *args):
         if self.debug:
             MyApp.logger.setLevel(logging.DEBUG)
         try:
