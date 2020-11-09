@@ -24,6 +24,7 @@ class DialogScreen(Screen):
     debug = BooleanProperty(False)
     query_text = ObjectProperty(None)
     res_per = ObjectProperty(None)
+    res_aggressive = BooleanProperty(False)
     res_update = BooleanProperty(False)
 
     def on_go_btn_click(self):
@@ -97,7 +98,7 @@ class GraphView(FloatLayout):
         加工済CSVから集計し結果を配列で返す
 
                 percentage: "その他"に分類する割合の閾値
-                aggressive:複数回出現した数字を全て置換するオプション
+                aggressive: 複数回出現した数字を全て置換するオプション
         """
 
         # CSVファイルを読み込み加工する
