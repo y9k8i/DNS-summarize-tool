@@ -53,7 +53,12 @@ class ProgressScreen(Screen):
         try:
             self.dnsGetter = DNSGetter(
                 debug=self.debug, update=self.update, logger=MyApp.logger)
-            if self.query.rsplit('/')[0].replace('.', '').isdecimal():
+            if ('.' not in self.query):
+                domain_name = self.dnsGetter.get_domain_name(self.query)
+                file_name = self.dnsGetter.get_DNS(
+                    self.dnsGetter.get_network_address(domain_name), "addr")
+                ResultScreen.domain_name = domain_name
+            elif self.query.rsplit('/')[0].replace('.', '').isdecimal():
                 file_name = self.dnsGetter.get_DNS(self.query, "addr")
             elif self.query.rsplit('.', 1)[-1] == "html":
                 file_name = self.dnsGetter.get_DNS(self.query, "file")
@@ -61,10 +66,7 @@ class ProgressScreen(Screen):
                 file_name = self.dnsGetter.get_DNS(
                     self.dnsGetter.get_network_address(self.query), "addr")
             else:
-                domain_name = self.dnsGetter.get_domain_name(self.query)
-                file_name = self.dnsGetter.get_DNS(
-                    self.dnsGetter.get_network_address(domain_name), "addr")
-                ResultScreen.domain_name = domain_name
+                raise Exception("クエリ種別を判別できませんでした。")
             ResultScreen.file_name = file_name
             # numberreplacer.pyにおけるドメイン自動検出が不完全
         except Exception as e:
