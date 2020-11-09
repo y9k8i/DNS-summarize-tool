@@ -172,6 +172,7 @@ class MyApp(App):
     logger.setLevel(logging.INFO)
     handler = logging.StreamHandler()
     logger.addHandler(handler)
+    title = "DNSレコード事前調査ツール"
 
     def build(self):
         self.icon = "icon.png"
