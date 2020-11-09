@@ -121,16 +121,17 @@ class GraphView(FloatLayout):
         rcParams['font.family'] = 'sans-serif'
         rcParams['font.sans-serif'] = ['Hiragino Maru Gothic Pro',
                                        'Yu Gothic', 'Noto Sans CJK JP']
-        rcParams['font.size'] = 15
+        rcParams['font.size'] = 28
 
-        fig = plt.figure(dpi=120)
+        fig = plt.figure()
         ax = fig.add_subplot()
-        ax.pie(counts, startangle=90, autopct="%.1f%%",
+        ax.pie(counts, counterclock=False, startangle=90, autopct="%.1f%%",
                wedgeprops={'linewidth': 3, 'edgecolor': "white"})
         ax.legend(values, fancybox=True, loc='center left',
                   bbox_to_anchor=(1.0, 0.5))
-        plt.title("DNSレコードにおける各種ホスト名の割合")
-        fig.subplots_adjust(left=0, right=0.6)
+        plt.title("DNSレコードにおける各種ホスト名の割合",
+                  x=0.25, horizontalalignment='left')
+        fig.subplots_adjust(left=0, right=0.5, bottom=0)
         return fig
 
 
