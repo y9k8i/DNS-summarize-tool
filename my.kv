@@ -38,8 +38,18 @@
             pos_hint: {'x':0.2, 'y':0.6}
         CheckBox:
             active: root.res_aggressive
-            pos_hint: {'x':0.45, 'y':0.6}
-            size_hint: 0.1, 0.1
+        MyLabel:
+            text:"結果を毎回取得:"
+            pos_hint: {'x':0.05, 'y':0.35}
+        CheckBox:
+            active: root.res_update
+            pos_hint: {'x':0.55, 'y':0.35}
+        MyLabel:
+            text:"デバッグ:"
+            pos_hint: {'x':0.05, 'y':0.2}
+        CheckBox:
+            active: root.debug
+            pos_hint: {'x':0.55, 'y':0.2}
         Button:
             pos_hint:{'x':0.2, 'y':0.05}
             size_hint: 0.6, 0.2

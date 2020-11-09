@@ -21,35 +21,35 @@ from numberreplacer import NumberReplacer
 
 
 class DialogScreen(Screen):
+    debug = BooleanProperty(False)
     query_text = ObjectProperty(None)
     res_per = ObjectProperty(None)
-    res_aggressive = BooleanProperty(False)
+    res_update = BooleanProperty(False)
 
     def on_go_btn_click(self):
         if self.query_text.text != "":
+            ProgressScreen.debug = self.debug
             ProgressScreen.query = self.query_text.text
             ResultScreen.percentage = int(self.res_per.text)
             ResultScreen.aggressive = self.res_aggressive
+            ResultScreen.update = self.res_update
             self.parent.current = "progress"
         else:
             App.get_running_app().open_popup("検索文字列が\n入力されていません")
 
 
 class ProgressScreen(Screen):
+    debug = False
     query = ""
+    update = False
     query_label = ObjectProperty(None)
     progress = ObjectProperty(None)
 
     def on_pre_enter(self, *args):
         self.query_label.text = "検索文字列: " + self.query
-        self.progress.max = 3
-        self.progress.value = 0
 
-    def on_enter(self, *args):
-        self.dnsGetter = DNSGetter()
-        self.dnsGetter.debug = True
-        self.dnsGetter.update = True
-        domain_name = self.dnsGetter.get_domain_name(self.query)
+        if self.debug:
+            MyApp.logger.setLevel(logging.DEBUG)
         self.progress.value = 1
         network_address = self.dnsGetter.get_network_address(domain_name)
         self.progress.value = 2
