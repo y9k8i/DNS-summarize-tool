@@ -81,7 +81,6 @@ class DNSGetter:
 
     def get_domain_name(self, query) -> str:
         """検索文字列からドメイン名を検出し返す"""
-        print(query + "のドメイン名を取得中...")
         self.launch_browser()
         self.logger.info(f"{query}のドメイン名を検索中...")
         page_url = f"https://www.google.com/search?q={query}"
@@ -120,7 +119,6 @@ class DNSGetter:
             if os.path.exists(filename) and not self.update:
                 self.logger.info(f"{filename}が存在するため再利用します")
                 return filename
-            print(arg + "のDNSレコードを取得中...")
             self.launch_browser()
             self.logger.info(f"{arg}のDNSレコードを取得中...")
             page_url = f"https://bgp.he.net/net/{arg}#_dns"
