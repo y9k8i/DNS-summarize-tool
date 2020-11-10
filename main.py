@@ -11,19 +11,23 @@ import logging
 from kivy.config import Config
 Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '720')
+from kivy.core.text import LabelBase, DEFAULT_FONT
 from kivy.app import App
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+from kivy.lang import Builder
 from kivy.properties import ObjectProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
-import japanize_kivy  # noqa: F401
 from matplotlib import rcParams
 import matplotlib.pyplot as plt
 
 from dnsgetter import DNSGetter
 from numberreplacer import NumberReplacer
+
+LabelBase.register(DEFAULT_FONT, DNSGetter.resource_path('ipaexg.ttf'))
+Builder.load_file(DNSGetter.resource_path('my.kv'))
 
 
 class DialogScreen(Screen):

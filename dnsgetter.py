@@ -18,6 +18,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class DNSGetter:
 
+    def resource_path(relative_path):
+        try:
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.dirname(__file__)
+        return os.path.join(base_path, relative_path)
+
     def launch_browser(self):
         """ブラウザを起動する"""
         if not hasattr(self, 'driver'):
@@ -27,7 +34,9 @@ class DNSGetter:
                 'excludeSwitches', ['enable-logging'])
             if not self.debug:
                 options.add_argument('--headless')
-            self.driver = webdriver.Chrome(options=options)
+            self.driver = webdriver.Chrome(
+                DNSGetter.resource_path('chromedriver.exe'),
+                options=options)
             self.wait = WebDriverWait(self.driver, 30)
             self.logger.info("ChromeDriverが起動しました")
 
@@ -102,7 +111,7 @@ class DNSGetter:
             arg:ファイル名（CIDR表記又は`0_0_0_0`形式のネットワークアドレス+.html）, opt:file
         """
         if opt == "addr":
-            filename = f"table/table_{arg.split('/')[0].replace('.', '_')}.csv"
+            filename = DNSGetter.resource_path(f"table/table_{arg.split('/')[0].replace('.', '_')}.csv")
             if os.path.exists(filename) and not self.update:
                 self.logger.info(f"{filename}が存在するため再利用します")
                 return filename
