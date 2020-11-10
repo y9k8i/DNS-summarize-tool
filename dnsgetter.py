@@ -55,19 +55,22 @@ class DNSGetter:
                     return True
                 else:
                     return False
+
         try:
             self.logger.debug("ページ遷移を待ちます")
             err_elements = self.driver.find_elements_by_id('error')
-            if len(err_elements) > 0 and err_elements[0].text \
-                    == "Please wait while we validate your browser.":
-                self.logger.info("サーバ側でブラウザを検証中...")
-                self.wait.until(location_to_be_change("https://bgp.he.net/cc"))
-                self.wait.until(EC.presence_of_all_elements_located)
-            if len(self.driver.find_elements_by_id('tab_error')) > 0:
-                raise Exception(self.driver.find_element_by_id('error')
-                                .get_attribute("textContent")
-                                .split('.')[0] + '.'
-                                )
+            if len(err_elements) > 0:
+                if err_elements[0].text \
+                        == "Please wait while we validate your browser.":
+                    self.logger.info("サーバ側でブラウザを検証中...")
+                    self.wait.until(
+                        location_to_be_change("https://bgp.he.net/cc"))
+                    self.wait.until(EC.presence_of_all_elements_located)
+                elif len(self.driver.find_elements_by_id('tab_error')) > 0:
+                    raise Exception(err_elements[0]
+                                    .get_attribute("textContent")
+                                    .split('.')[0].strip() + '.'
+                                    )
             else:
                 err_elements = self.driver.find_elements_by_tag_name('h2')
                 if len(err_elements) > 0:
