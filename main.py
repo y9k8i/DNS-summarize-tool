@@ -37,9 +37,9 @@ class DialogScreen(Screen):
         if self.query_text.text != "":
             ProgressScreen.debug = self.debug
             ProgressScreen.query = self.query_text.text
+            ProgressScreen.update = self.res_update
             ResultScreen.percentage = int(self.res_per.text)
             ResultScreen.aggressive = self.res_aggressive
-            ResultScreen.update = self.res_update
             self.parent.current = "progress"
         else:
             App.get_running_app().open_popup("検索文字列が\n入力されていません")
@@ -189,7 +189,7 @@ class MyApp(App):
         self.sm.add_widget(DialogScreen(name="dialog"))
         self.sm.add_widget(ProgressScreen(name="progress"))
         self.sm.add_widget(ResultScreen(name="result"))
-        # ResultScreen.file_name = "table/table_dendai_133_20.csv"
+        # ResultScreen.file_name = "table/table_133_20_0_0.csv"
         # self.sm.current = "result"
         return self.sm
 
