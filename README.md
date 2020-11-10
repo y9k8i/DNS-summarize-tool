@@ -106,8 +106,6 @@ Note: Kivy 1.11.1 is the last release that supports Python 2.
     garden install matplotlib
     ```
 
-If you are running on Windows, add `-X utf8` command line option or set the `PYTHONUTF8=1` environment variable.
-
 ## Author
 
 [@y9k8i](https://github.com/y9k8i)

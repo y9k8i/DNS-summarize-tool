@@ -1,3 +1,10 @@
+import os
+if os.name == 'nt':
+    import _locale
+    _locale._getdefaultlocale_backup = _locale._getdefaultlocale
+    _locale._getdefaultlocale = (
+        lambda *args: (_locale._getdefaultlocale_backup()[0], 'UTF-8'))
+
 import collections
 import logging
 
