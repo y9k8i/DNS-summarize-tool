@@ -175,7 +175,7 @@ if __name__ == "__main__":
     dnsGetter = DNSGetter()
     if len(sys.argv) == 2:
         try:
-            if sys.argv[1].replace('.', '').isdecimal():
+            if sys.argv[1].rsplit('/')[0].replace('.', '').isdecimal():
                 dnsGetter.get_DNS(sys.argv[1], "addr")
             elif sys.argv[1].rsplit('.', 1)[-1] == "html":
                 dnsGetter.get_DNS(sys.argv[1], "file")
