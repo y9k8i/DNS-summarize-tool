@@ -96,7 +96,6 @@ class DNSGetter:
 
     def get_network_address(self, domain_name) -> str:
         """ドメイン名からネットワークアドレスを検出し返す"""
-        print(domain_name + "のネットワークアドレスを取得中...")
         self.launch_browser()
         self.logger.info(f"{domain_name}のネットワークアドレスを取得中...")
         page_url = f"https://bgp.he.net/dns/{domain_name}#_ipinfo"
@@ -104,7 +103,8 @@ class DNSGetter:
         self.wait_for_browser_validate()
         soup = BeautifulSoup(self.driver.page_source, "html.parser")
         addr = soup.select_one("#ipinfo > a:nth-child(2)")
-        return addr.text if addr is not None else ""
+        self.logger.info(f"ネットワークアドレスの取得結果「{addr.text or ''}」")
+        return addr.text or ""
 
     def get_DNS(self, arg, opt) -> str:
         """
