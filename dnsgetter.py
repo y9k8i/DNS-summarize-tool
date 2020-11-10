@@ -90,6 +90,8 @@ class DNSGetter:
         domain_name = soup.select_one(".iUh30")
         title = soup.select_one(".LC20lb")
         self.logger.info(f"ページ名「{title.text}」, 検索結果「{domain_name.text}」")
+        if '›' in domain_name.text:
+            raise Exception("検索結果がトップページではありません")
         return domain_name.text if domain_name is not None else ""
 
     def get_network_address(self, domain_name) -> str:
