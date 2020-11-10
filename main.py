@@ -140,8 +140,8 @@ class GraphView(FloatLayout):
         ax.legend(values, fancybox=True, loc='center left',
                   bbox_to_anchor=(1.0, 0.5))
         plt.title("DNSレコードにおける各種ホスト名の割合",
-                  x=0.25, horizontalalignment='left')
-        fig.subplots_adjust(left=0, right=0.5, bottom=0)
+                  x=0.4, horizontalalignment='left')
+        fig.subplots_adjust(left=0, right=0.4, bottom=0)
         return fig
 
 
