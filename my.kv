@@ -41,19 +41,19 @@
             text:"すべての数字を置換:"
             pos_hint: {'x':0.05, 'y':0.5}
         CheckBox:
-            active: root.res_aggressive
+            on_active: root.res_aggressive = self.active
             pos_hint: {'x':0.55, 'y':0.5}
         MyLabel:
             text:"結果を毎回取得:"
             pos_hint: {'x':0.05, 'y':0.35}
         CheckBox:
-            active: root.res_update
+            on_active: root.res_update = self.active
             pos_hint: {'x':0.55, 'y':0.35}
         MyLabel:
             text:"デバッグ:"
             pos_hint: {'x':0.05, 'y':0.2}
         CheckBox:
-            active: root.debug
+            on_active: root.debug = self.active
             pos_hint: {'x':0.55, 'y':0.2}
         Button:
             pos_hint:{'x':0.25, 'y':0.05}
@@ -65,15 +65,19 @@
 
 <ProgressScreen>:
     query_label: query_label
-
-    BoxLayout:
-        orientation: "vertical"
+    FloatLayout:
         Label:
             id: query_label
-            font_size: self.height
+            font_size: root.height / 10
             text_size: self.size
-            halign: 'left'
-            pos_hint: {'x':0.05}
+            halign: 'center'
+            pos_hint: {'x':0.05, 'y':0.8}
+            size_hint: 0.9, 0.15
+        Label:
+            font_size: root.height / 15
+            text:"処理中です…"
+            halign: 'center'
+            pos_hint: {'x':0.05, 'y':0.4}
             size_hint: 0.9, 0.15
 
 
