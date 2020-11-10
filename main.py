@@ -6,6 +6,7 @@ if os.name == 'nt':
         lambda *args: (_locale._getdefaultlocale_backup()[0], 'UTF-8'))
 
 import collections
+import io
 import logging
 
 from kivy.config import Config
@@ -183,8 +184,10 @@ class ErrPopup(Popup):
 class MyApp(App):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
-    handler = logging.StreamHandler()
+    log_stream = io.StringIO()
+    handler = logging.StreamHandler(stream=log_stream)
     logger.addHandler(handler)
+    logger.addHandler(logging.StreamHandler())  # エラー出力にも出力する
     title = "DNSレコード事前調査ツール"
 
     def build(self):
