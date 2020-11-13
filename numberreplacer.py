@@ -7,7 +7,7 @@ import pprint
 
 class NumberReplacer:
 
-    def replace_number(self, filename, domain="", aggressive=False) -> list:
+    def replace_number(self, file_path, domain="", aggressive=False) -> list:
         """
         DNSレコードを記録したCSVからホスト名を読み込み数字を置換し返す
 
@@ -18,7 +18,7 @@ class NumberReplacer:
         result = []
 
         # CSV読み込み
-        with open(filename, "r") as f:
+        with open(file_path, "r") as f:
             reader = csv.reader(f)
             # ヘッダ行を無視
             next(reader)
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     elif len(sys.argv) == 2:
         pprint.pprint(NR.replace_number(sys.argv[1]), compact=False)
     else:
-        print("usage: " + sys.argv[0] + " filename [domain] [aggressive]")
+        print("usage: " + sys.argv[0] + " filepath [domain] [aggressive]")

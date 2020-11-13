@@ -114,11 +114,31 @@ class DNSGetter:
             DOMを保存したファイルの場合:
             arg:ファイル名（CIDR表記又は`0_0_0_0`形式のネットワークアドレス+.html）, opt:file
         """
-        if opt == "addr":
-            filename = DNSGetter.resource_path(f"table/table_{arg.split('/')[0].replace('.', '_')}.csv")
-            if os.path.exists(filename) and not self.update:
-                self.logger.info(f"{filename}が存在するため再利用します")
-                return filename
+        # 保存先ディレクトリのパスを定義
+        if 'dir_name' not in locals():
+            dir_name = "tables"
+        dir_path = os.path.join(os.path.dirname(sys.argv[0]), dir_name)
+
+        # データのタイプを確認しファイル名を定義
+        if opt == "file":
+            file_name = f"{arg.rsplit('.', 1)[0]}.csv"
+        elif opt == "addr":
+            file_name = f"{arg.split('/')[0].replace('.', '_')}.csv"
+        else:
+            self.logger.error("get_DNS(): データのタイプが指定されていません")
+            return None
+
+        # DNSレコードを取得済かつ取得オプションがオフの場合再利用
+        file_path = os.path.join(dir_path, file_name)
+        if os.path.exists(file_path) and not self.update:
+            self.logger.info(f"{file_path}が存在するため再利用します")
+            return file_path
+
+        # DNSレコードをパースまたは取得
+        if opt == "file":
+            with open(arg) as f:
+                soup = BeautifulSoup(f.read(), "html.parser")
+        elif opt == "addr":
             self.launch_browser()
             self.logger.info(f"{arg}のDNSレコードを取得中...")
             page_url = f"https://bgp.he.net/net/{arg}#_dns"
@@ -126,21 +146,13 @@ class DNSGetter:
             self.wait_for_browser_validate()
             self.wait.until(EC.visibility_of_element_located((By.ID, "dns")))
             soup = BeautifulSoup(self.driver.page_source, "html.parser")
-        elif opt == "file":
-            filename = arg.rsplit('.', 1)[0] + ".csv"
-            if os.path.exists(filename) and not self.update:
-                self.logger.info(f"{filename}が存在するため再利用します")
-                return filename
-            with open(arg) as f:
-                soup = BeautifulSoup(f.read(), "html.parser")
-        else:
-            self.logger.error("get_DNS(): データのタイプが指定されていません")
 
         rows = soup.select("#dns tr")
 
-        # ファイルに保存
+        # ファイルに保存 保存先が無ければ作成
         self.logger.info("取得したDNSレコードを保存中...")
-        with open(filename, "w", encoding='utf-8', newline='\n') as file:
+        os.makedirs(dir_path, exist_ok=True)
+        with open(file_path, "w", encoding='utf-8', newline='\n') as file:
             writer = csv.writer(file)
             writer.writerow(["IP", "hostname"])
             for row in rows[1:]:
@@ -148,8 +160,8 @@ class DNSGetter:
                 for cell in row.select("td")[:2]:
                     csvRow.append(cell.text)
                 writer.writerow(csvRow)
-        self.logger.info(f"{filename}に保存しました")
-        return filename
+        self.logger.info(f"{os.path.join(dir_name, file_name)}に保存しました")
+        return file_path
 
     def __init__(self, debug=False, update=False, logger=None):
         self.debug = debug

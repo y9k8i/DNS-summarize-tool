@@ -67,19 +67,19 @@ class ProgressScreen(Screen):
                 debug=self.debug, update=self.update, logger=MyApp.logger)
             if ('.' not in self.query):
                 domain_name = self.dnsGetter.get_domain_name(self.query)
-                file_name = self.dnsGetter.get_DNS(
+                file_path = self.dnsGetter.get_DNS(
                     self.dnsGetter.get_network_address(domain_name), "addr")
                 ResultScreen.domain_name = domain_name
             elif self.query.rsplit('/')[0].replace('.', '').isdecimal():
-                file_name = self.dnsGetter.get_DNS(self.query, "addr")
+                file_path = self.dnsGetter.get_DNS(self.query, "addr")
             elif self.query.rsplit('.', 1)[-1] == "html":
-                file_name = self.dnsGetter.get_DNS(self.query, "file")
+                file_path = self.dnsGetter.get_DNS(self.query, "file")
             elif self.query.replace('.', '').encode('utf-8').isalnum():
-                file_name = self.dnsGetter.get_DNS(
+                file_path = self.dnsGetter.get_DNS(
                     self.dnsGetter.get_network_address(self.query), "addr")
             else:
                 raise Exception("クエリ種別を判別できませんでした。")
-            ResultScreen.file_name = file_name
+            ResultScreen.file_path = file_path
             # numberreplacer.pyにおけるドメイン自動検出が不完全
         except Exception as e:
             MyApp.logger.error(e, exc_info=self.debug)
@@ -91,7 +91,7 @@ class ProgressScreen(Screen):
 
 
 class ResultScreen(Screen):
-    file_name = ""
+    file_path = ""
     domain_name = ""
     percentage = 10
     aggressive = False
@@ -99,14 +99,14 @@ class ResultScreen(Screen):
     def on_enter(self, *args):
         graphview = GraphView()
         res = graphview.summarize_table(
-            self.file_name, self.domain_name, self.aggressive, self.percentage)
+            self.file_path, self.domain_name, self.aggressive, self.percentage)
         fig = graphview.plot_result(res)
         graphview.add_widget(FigureCanvasKivyAgg(fig))
         self.add_widget(graphview)
 
 
 class GraphView(FloatLayout):
-    def summarize_table(self, file_name: str, domain_name: str,
+    def summarize_table(self, file_path: str, domain_name: str,
                         aggressive: bool, percentage: int) -> list:
         """
         加工済CSVから集計し結果を配列で返す
@@ -118,7 +118,7 @@ class GraphView(FloatLayout):
         # CSVファイルを読み込み加工する
         NR = NumberReplacer()
         res_sorted = collections.Counter(
-            NR.replace_number(file_name, domain_name, aggressive))
+            NR.replace_number(file_path, domain_name, aggressive))
         del NR
 
         # 要素の並び替えおよび「その他」への置換
@@ -196,7 +196,7 @@ class MyApp(App):
         self.sm.add_widget(DialogScreen(name="dialog"))
         self.sm.add_widget(ProgressScreen(name="progress"))
         self.sm.add_widget(ResultScreen(name="result"))
-        # ResultScreen.file_name = "table/table_133_20_0_0.csv"
+        # ResultScreen.file_path = "table/table_133_20_0_0.csv"
         # self.sm.current = "result"
         return self.sm
 
