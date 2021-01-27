@@ -202,7 +202,7 @@ class MyApp(App):
     title = "DNSレコード事前調査ツール"
 
     def build(self):
-        self.icon = "icon.png"
+        self.icon = DNSGetter.resource_path("icon.png")
         self.sm = ScreenManager(transition=FadeTransition())
         self.sm.add_widget(DialogScreen(name="dialog"))
         self.sm.add_widget(ProgressScreen(name="progress"))
