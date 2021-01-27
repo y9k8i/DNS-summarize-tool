@@ -216,4 +216,4 @@ if __name__ == "__main__":
             del dnsGetter
 
     else:
-        print(f"usage: {sys.argv[0]} filename or domain_name or ip or query")
+        print(f"usage: {sys.argv[0]} filename or domainname or ip or query")
