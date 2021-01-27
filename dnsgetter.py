@@ -22,6 +22,7 @@ class DNSGetter:
         CD_installer.get_chromedriver_filename()
     )
 
+    @staticmethod
     def resource_path(relative_path):
         """
         リソースファイルの絶対パスを返す
@@ -33,6 +34,7 @@ class DNSGetter:
             base_path = os.path.dirname(sys.argv[0])
         return os.path.join(base_path, relative_path)
 
+    @staticmethod
     def download_webdriver():
         filepath = CD_installer.download_chromedriver(cwd=True)
         shutil.move(filepath, os.getcwd())
