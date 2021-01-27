@@ -96,7 +96,7 @@ class ResultScreen(Screen):
     percentage = 10
     aggressive = False
 
-    def on_enter(self, *args):
+    def on_pre_enter(self, *args):
         graphview = GraphView()
         res = graphview.summarize_table(
             self.file_path, self.domain_name, self.aggressive, self.percentage)
