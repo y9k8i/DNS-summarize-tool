@@ -29,7 +29,7 @@ from dnsgetter import DNSGetter
 from numberreplacer import NumberReplacer
 
 LabelBase.register(DEFAULT_FONT, DNSGetter.resource_path('ipaexg.ttf'))
-Builder.load_file(DNSGetter.resource_path('my.kv'))
+Builder.load_file(DNSGetter.resource_path('main.kv'))
 
 
 class DialogScreen(Screen):
