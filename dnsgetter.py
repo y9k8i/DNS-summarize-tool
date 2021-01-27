@@ -100,12 +100,12 @@ class DNSGetter:
         page_url = f"https://www.google.com/search?q={query}"
         self.driver.get(page_url)
         soup = BeautifulSoup(self.driver.page_source, "html.parser")
-        domain_name = soup.select_one(".iUh30")
+        domain_name = soup.select_one(".iUh30").text.split("://")[-1]
         title = soup.select_one(".LC20lb")
-        self.logger.info(f"ページ名「{title.text}」, 検索結果「{domain_name.text}」")
-        if '›' in domain_name.text:
+        self.logger.info(f"ページ名「{title.text}」, 検索結果「{domain_name}」")
+        if '›' in domain_name:
             raise Exception("検索結果がトップページではありません")
-        return domain_name.text if domain_name is not None else ""
+        return domain_name if domain_name is not None else ""
 
     def get_network_address(self, domain_name) -> str:
         """ドメイン名からネットワークアドレスを検出し返す"""
@@ -196,7 +196,10 @@ if __name__ == "__main__":
     logger = logging.getLogger()
     handler = logging.StreamHandler()
     logger.addHandler(handler)
-    DNSGetter.download_webdriver()
+    if not os.path.exists(DNSGetter.chromedriver_filepath):
+        MyApp.logger.info("ChromeDriverをダウンロードします")
+        DNSGetter.download_webdriver()
+
     dnsGetter = DNSGetter()
     if len(sys.argv) == 2:
         try:
