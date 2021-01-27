@@ -33,18 +33,6 @@ Note: Kivy 1.11.1 is the last release that supports Python 2.
 
 1.  If you want to install the dependencies in a virtual environment (**recommended**), create and activate that environment.
 
-1.  Install ChromeDriver.
-    - Using pip (**recommended**)  
-        Use the major version number which version of Chrome you are using.  
-        In addition, the version of ChromeDriver for the current stable release of Chrome can be found at [here](https://chromedriver.storage.googleapis.com/LATEST_RELEASE).  
-        e.g.
-        ```
-        python -m pip install chromedriver-binary==83.0.*
-        ```
-    - Download from Google
-        1.  Download from [here](https://sites.google.com/a/chromium.org/chromedriver/).
-        1.  Place ChromeDriver included in downloaded zip file in the same folder as main.py.
-
 1.  Install kivy and its dependencies.
     - Using Conda
         ```

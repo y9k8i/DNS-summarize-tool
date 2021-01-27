@@ -3,11 +3,10 @@ import csv
 import logging
 import os.path
 import sys
+import shutil
 
 from bs4 import BeautifulSoup
-import pkgutil
-if(pkgutil.find_loader('chromedriver_binary') is not None):
-    import chromedriver_binary as chrome  # noqa: F401
+from chromedriver_autoinstaller import utils as CD_installer
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
@@ -18,12 +17,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class DNSGetter:
 
+    chromedriver_filepath = os.path.join(
+        os.path.dirname(sys.argv[0]),
+        CD_installer.get_chromedriver_filename()
+    )
+
     def resource_path(relative_path):
+        """
+        リソースファイルの絶対パスを返す
+            実行ファイルの場合展開された一時的なパスを返す
+        """
         try:
             base_path = sys._MEIPASS
         except Exception:
             base_path = os.path.dirname(sys.argv[0])
         return os.path.join(base_path, relative_path)
+
+    def download_webdriver():
+        filepath = CD_installer.download_chromedriver(cwd=True)
+        shutil.move(filepath, os.getcwd())
+        os.rmdir(os.path.dirname(filepath))
 
     def launch_browser(self):
         """ブラウザを起動する"""
@@ -35,8 +48,7 @@ class DNSGetter:
             if not self.debug:
                 options.add_argument('--headless')
             self.driver = webdriver.Chrome(
-                DNSGetter.resource_path('chromedriver.exe'),
-                options=options)
+                CD_installer.get_chromedriver_filename(), options=options)
             self.wait = WebDriverWait(self.driver, 30)
             self.logger.info("ChromeDriverが起動しました")
 
@@ -182,6 +194,7 @@ if __name__ == "__main__":
     logger = logging.getLogger()
     handler = logging.StreamHandler()
     logger.addHandler(handler)
+    DNSGetter.download_webdriver()
     dnsGetter = DNSGetter()
     if len(sys.argv) == 2:
         try:

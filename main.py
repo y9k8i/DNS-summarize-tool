@@ -14,6 +14,7 @@ Config.set('graphics', 'width', '1280')
 Config.set('graphics', 'height', '720')
 from kivy.core.text import LabelBase, DEFAULT_FONT
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty, BooleanProperty
@@ -38,7 +39,17 @@ class DialogScreen(Screen):
     res_aggressive = BooleanProperty(False)
     res_update = BooleanProperty(False)
 
-    def on_go_btn_click(self):
+    def check_chromedriver(self, dt):
+        if not os.path.exists(DNSGetter.chromedriver_filepath):
+            MyApp.logger.info("ChromeDriverをダウンロードします")
+            DNSGetter.download_webdriver()
+        else:
+            MyApp.logger.debug("ChromeDriverは存在するのでダウンロードしません")
+
+    def on_enter(self, *args):
+        Clock.schedule_once(self.check_chromedriver, 5)
+
+    def on_go_btn_click(self, *args):
         if self.query_text.text != "":
             ProgressScreen.debug = self.debug
             ProgressScreen.query = self.query_text.text
